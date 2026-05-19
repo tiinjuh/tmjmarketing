@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How I Work — Ucarry Demand</title>
+  <style>
+    :root {
+      --bg:          #090a0b;
+      --surface:     #1f2527;
+      --surface2:    #272e31;
+      --surface3:    #364043;
+      --red:         #c8133e;
+      --red-light:   #e8294f;
+      --red-dim:     rgba(200,19,62,0.15);
+      --red-border:  rgba(200,19,62,0.30);
+      --white:       #ffffff;
+      --muted:       #8a9ba8;
+      --muted2:      #6b7c87;
+      --border:      rgba(255,255,255,0.07);
+      --col1:        #4ade80;
+      --col2:        #60a5fa;
+      --col3:        #f97316;
+      --col1-dim:    rgba(74,222,128,0.08);
+      --col2-dim:    rgba(96,165,250,0.08);
+      --col3-dim:    rgba(249,115,22,0.08);
+      --col1-border: rgba(74,222,128,0.22);
+      --col2-border: rgba(96,165,250,0.22);
+      --col3-border: rgba(249,115,22,0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { background: var(--bg); }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(200,19,62,0.13), transparent 28rem),
+        radial-gradient(circle at 90% 25%, rgba(96,165,250,0.09), transparent 24rem),
+        var(--bg);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
+    }
+
+    .page-header {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 72px 28px 46px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--red-light);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 850;
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+      margin-bottom: 20px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--red-light);
+    }
+
+    .page-header p {
+      font-size: clamp(15px, 2vw, 17px);
+      color: var(--muted);
+      line-height: 1.75;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .diagram-shell {
+      width: min(1500px, calc(100vw - 32px));
+      margin: 0 auto 84px;
+      overflow-x: auto;
+      padding: 10px 0 4px;
+    }
+
+    .diagram {
+      min-width: 1180px;
+      display: grid;
+      grid-template-columns: 104px repeat(3, minmax(0, 1fr));
+      column-gap: 14px;
+      row-gap: 12px;
+      align-items: stretch;
+    }
+
+    .spacer { min-height: 1px; }
+
+    .engine-card {
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.045), rgba(255,255,255,0.018));
+      border-radius: 22px 22px 10px 10px;
+      padding: 24px 26px 22px;
+      min-height: 140px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .engine-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.9;
+      border-top: 3px solid currentColor;
+      border-radius: inherit;
+    }
+
+    .engine-card.c1 { color: var(--col1); background: linear-gradient(180deg, var(--col1-dim), rgba(255,255,255,0.015)); }
+    .engine-card.c2 { color: var(--col2); background: linear-gradient(180deg, var(--col2-dim), rgba(255,255,255,0.015)); }
+    .engine-card.c3 { color: var(--col3); background: linear-gradient(180deg, var(--col3-dim), rgba(255,255,255,0.015)); }
+
+    .engine-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+      line-height: 1;
+    }
+
+    .engine-title {
+      color: var(--white);
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .engine-sub {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+      max-width: 340px;
+    }
+
+    .stage-label {
+      align-self: stretch;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      position: relative;
+    }
+
+    .stage-label span {
+      display: inline-flex;
+      min-width: 86px;
+      min-height: 42px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--red-border);
+      background: rgba(200,19,62,0.10);
+      border-radius: 999px;
+      color: var(--red-light);
+      font-size: 12px;
+      font-weight: 850;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .funnel-cell {
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.025);
+      min-height: 278px;
+      position: relative;
+      padding: 20px;
+      overflow: visible;
+      isolation: isolate;
+    }
+
+    .funnel-cell::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: var(--cell-bg);
+      border: 1px solid var(--cell-border);
+      z-index: -1;
+      opacity: 0.95;
+    }
+
+    .funnel-cell.top.c1::before { clip-path: polygon(0 0, 100% 0, 96% 100%, 8% 100%); }
+    .funnel-cell.mid.c1::before { clip-path: polygon(8% 0, 96% 0, 92% 100%, 18% 100%); }
+    .funnel-cell.bot.c1::before { clip-path: polygon(18% 0, 92% 0, 86% 100%, 28% 100%); }
+
+    .funnel-cell.top.c2::before { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+    .funnel-cell.mid.c2::before { clip-path: polygon(4% 0, 96% 0, 94% 100%, 6% 100%); }
+    .funnel-cell.bot.c2::before { clip-path: polygon(10% 0, 90% 0, 86% 100%, 14% 100%); }
+
+    .funnel-cell.top.c3::before { clip-path: polygon(0 0, 100% 0, 92% 100%, 4% 100%); }
+    .funnel-cell.mid.c3::before { clip-path: polygon(4% 0, 92% 0, 82% 100%, 8% 100%); }
+    .funnel-cell.bot.c3::before { clip-path: polygon(8% 0, 82% 0, 72% 100%, 14% 100%); }
+
+    .funnel-cell.c1 { --cell-bg: var(--col1-dim); --cell-border: var(--col1-border); }
+    .funnel-cell.c2 { --cell-bg: var(--col2-dim); --cell-border: var(--col2-border); }
+    .funnel-cell.c3 { --cell-bg: var(--col3-dim); --cell-border: var(--col3-border); }
+
+    .item-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      height: 100%;
+      justify-content: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .funnel-cell.c1 .item-list { padding-left: 14%; padding-right: 9%; }
+    .funnel-cell.mid.c1 .item-list { padding-left: 19%; padding-right: 11%; }
+    .funnel-cell.bot.c1 .item-list { padding-left: 29%; padding-right: 15%; }
+
+    .funnel-cell.c2 .item-list { padding-left: 8%; padding-right: 8%; }
+    .funnel-cell.mid.c2 .item-list { padding-left: 11%; padding-right: 11%; }
+    .funnel-cell.bot.c2 .item-list { padding-left: 18%; padding-right: 18%; }
+
+    .funnel-cell.c3 .item-list { padding-left: 10%; padding-right: 14%; }
+    .funnel-cell.mid.c3 .item-list { padding-left: 12%; padding-right: 22%; }
+    .funnel-cell.bot.c3 .item-list { padding-left: 15%; padding-right: 31%; }
+
+    .service-pill {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: 16px;
+      padding: 13px 16px 14px;
+      background: rgba(9,10,11,0.58);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.22);
+      backdrop-filter: blur(10px);
+    }
+
+    .service-title {
+      display: block;
+      color: var(--white);
+      font-size: 13.5px;
+      font-weight: 780;
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: 5px;
+    }
+
+    .service-desc {
+      display: block;
+      color: var(--muted);
+      font-size: 12.2px;
+      line-height: 1.45;
+    }
+
+    .output-spacer { grid-column: 1; }
+
+    .output-bar {
+      grid-column: 2 / span 3;
+      margin: 2px auto 0;
+      width: 74%;
+      min-height: 78px;
+      border-radius: 20px;
+      border: 1px solid var(--red-border);
+      border-top: 2px solid var(--red);
+      background: linear-gradient(110deg, #1a0a10 0%, #2a1018 50%, #1a0a10 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.22);
+    }
+
+    .output-bar span {
+      color: var(--white);
+      font-size: clamp(18px, 2.2vw, 25px);
+      font-weight: 850;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 900px) {
+      .diagram-shell {
+        width: 100%;
+        padding: 0 18px 70px;
+        overflow-x: visible;
+      }
+
+      .diagram {
+        min-width: 0;
+        display: block;
+      }
+
+      .spacer { display: none; }
+
+      .engine-card {
+        margin: 24px 0 10px;
+        border-radius: 22px;
+      }
+
+      .stage-label {
+        justify-content: flex-start;
+        padding: 18px 0 10px;
+      }
+
+      .funnel-cell,
+      .funnel-cell::before {
+        clip-path: none !important;
+        border-radius: 18px;
+      }
+
+      .funnel-cell {
+        min-height: 0;
+        padding: 18px;
+        margin-bottom: 12px;
+      }
+
+      .item-list,
+      .funnel-cell.c1 .item-list,
+      .funnel-cell.mid.c1 .item-list,
+      .funnel-cell.bot.c1 .item-list,
+      .funnel-cell.c2 .item-list,
+      .funnel-cell.mid.c2 .item-list,
+      .funnel-cell.bot.c2 .item-list,
+      .funnel-cell.c3 .item-list,
+      .funnel-cell.mid.c3 .item-list,
+      .funnel-cell.bot.c3 .item-list {
+        padding: 0;
+      }
+
+      .output-bar {
+        width: 100%;
+        margin-top: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="page-header">
+    <span class="eyebrow">How It Works</span>
+    <h1>Three engines.<br/><em>One pipeline.</em></h1>
+    <p>Most B2B companies have marketing and sales running in parallel — both active, rarely connected. I build the system that closes the gap: shared signals, aligned priorities, and a motion that creates pipeline instead of just reporting on it.</p>
+  </header>
+
+  <main class="diagram-shell" aria-label="Three engines one pipeline diagram">
+    <section class="diagram">
+      <div class="spacer"></div>
+
+      <article class="engine-card c1">
+        <div class="engine-icon">✍️</div>
+        <h2 class="engine-title">Content Engine</h2>
+        <p class="engine-sub">Building authority that pulls the right buyers in</p>
+      </article>
+
+      <article class="engine-card c2">
+        <div class="engine-icon">🎯</div>
+        <h2 class="engine-title">Signal &amp; ABM</h2>
+        <p class="engine-sub">Knowing who's ready before they raise their hand</p>
+      </article>
+
+      <article class="engine-card c3">
+        <div class="engine-icon">⚡</div>
+        <h2 class="engine-title">Sales Motion</h2>
+        <p class="engine-sub">Turning pipeline into revenue without the manual grind</p>
+      </article>
+
+      <div class="stage-label"><span>Reach</span></div>
+
+      <article class="funnel-cell top c1">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">LinkedIn content strategy &amp; execution</span>
+            <span class="service-desc">— ICP-driven content pillars and weekly posts that build category authority</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">SEO &amp; blog content</span>
+            <span class="service-desc">targeting buyer search intent</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Thought leadership</span>
+            <span class="service-desc">and point-of-view content that earns attention from decision-makers</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell top c2">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">ICP definition and target account list</span>
+            <span class="service-desc">building — know exactly who you're going after</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Buyer intent monitoring</span>
+            <span class="service-desc">— who's researching solutions like yours right now</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Competitor and market signal tracking</span>
+            <span class="service-desc">across your target accounts</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell top c3">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Personalised outreach sequences</span>
+            <span class="service-desc">across email and LinkedIn</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">AI-assisted prospect research</span>
+            <span class="service-desc">and message personalisation at scale</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Signal-prioritised outbound</span>
+            <span class="service-desc">— cold outreach focused on accounts showing intent, not just volume</span>
+          </li>
+        </ul>
+      </article>
+
+      <div class="stage-label"><span>Engage</span></div>
+
+      <article class="funnel-cell mid c1">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Email newsletter</span>
+            <span class="service-desc">that keeps you top-of-mind with a warm, growing audience</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Lead magnets and downloadable assets</span>
+            <span class="service-desc">that capture demand already in the market</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Case studies and social proof content</span>
+            <span class="service-desc">that move buyers from curious to convinced</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell mid c2">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Website visitor identification</span>
+            <span class="service-desc">— ICP-match alerts routed to sales with context, not just a name</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Account scoring and prioritisation</span>
+            <span class="service-desc">so sales focuses on the right accounts at the right time</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Retargeting campaigns</span>
+            <span class="service-desc">for known, high-fit accounts already in your funnel</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell mid c3">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Follow-up automation</span>
+            <span class="service-desc">that feels human — not a drip sequence, a real conversation</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Sales call preparation briefs</span>
+            <span class="service-desc">— context, talking points, and objection prep before every meeting</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Re-engagement flows</span>
+            <span class="service-desc">for deals that have gone quiet</span>
+          </li>
+        </ul>
+      </article>
+
+      <div class="stage-label"><span>Convert</span></div>
+
+      <article class="funnel-cell bot c1">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Client stories</span>
+            <span class="service-desc">written to mirror your best buyers — same role, same problem, same outcome</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Objection-handling and ROI-framing content</span>
+            <span class="service-desc">that supports late-stage deals</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Comparison content</span>
+            <span class="service-desc">that positions you clearly against the alternatives</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell bot c2">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Buying signal escalation</span>
+            <span class="service-desc">to sales with full account context — what they read, what they searched, when they visited</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">Account intelligence briefs</span>
+            <span class="service-desc">pre-meeting so reps walk in knowing what matters</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">CRM enrichment</span>
+            <span class="service-desc">— clean, complete data so every deal decision is based on facts, not guesswork</span>
+          </li>
+        </ul>
+      </article>
+
+      <article class="funnel-cell bot c3">
+        <ul class="item-list">
+          <li class="service-pill">
+            <span class="service-title">Call intelligence</span>
+            <span class="service-desc">— recordings summarised, objections captured, next steps extracted automatically</span>
+          </li>
+          <li class="service-pill">
+            <span class="service-title">CRM-driven pipeline visibility</span>
+            <span class="service-desc">and weekly deal summary for sales and leadership</span>
+          </li>
+        </ul>
+      </article>
+
+      <div class="output-spacer"></div>
+      <div class="output-bar"><span>Qualified Pipeline</span></div>
+    </section>
+  </main>
+</body>
+</html>
